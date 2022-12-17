@@ -121,9 +121,12 @@ SRC += $(SRC_FOLDER)/*.cpp
 DEVICE_STARTUP = $(BASE_STARTUP)/$(SERIES_FOLDER)/$(MAPPED_DEVICE).s
 
 # Include the CMSIS files, using the HAL implies using the CMSIS
+# Using the -isystem flag instead of -I treats these header files as system headers,
+# thereby ignoring the errors (necessary because headers use C, but we are writing in CPP)
+# See https://stackoverflow.com/questions/6321839/how-to-disable-warnings-for-particular-include-files
 ifneq (,$(or USE_ST_CMSIS, USE_ST_HAL))
-    CPPFLAGS += -I$(STM32_CUBE_PATH)/CMSIS/ARM/inc
-    CPPFLAGS += -I$(STM32_CUBE_PATH)/CMSIS/$(SERIES_FOLDER)/inc
+    CPPFLAGS += -isystem $(STM32_CUBE_PATH)/CMSIS/ARM/inc
+    CPPFLAGS += -isystem $(STM32_CUBE_PATH)/CMSIS/$(SERIES_FOLDER)/inc
 
     SRC += $(STM32_CUBE_PATH)/CMSIS/$(SERIES_FOLDER)/src/*.c
 endif
@@ -131,7 +134,7 @@ endif
 # Include the HAL files
 ifdef USE_ST_HAL
     CPPFLAGS += -D USE_HAL_DRIVER
-    CPPFLAGS += -I$(STM32_CUBE_PATH)/HAL/$(SERIES_FOLDER)/inc
+    CPPFLAGS += -isystem $(STM32_CUBE_PATH)/HAL/$(SERIES_FOLDER)/inc
 
     # A simply expanded variable is used here to perform the find command only once.
     HAL_SRC := $(shell find $(STM32_CUBE_PATH)/HAL/$(SERIES_FOLDER)/src/*.c ! -name '*_template.c')
