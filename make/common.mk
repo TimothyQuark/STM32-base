@@ -12,7 +12,7 @@ ifeq ($(FLASHING_TOOL), stm32flash)
 		$(error Please set the required FLASHING_SERIAL_PORT variable in your makefile)
 	endif
 endif
-	
+
 
 # Standard values for (linked) STM32-base folders
 STM32_BASE_PATH   ?= ./STM32-base
@@ -44,7 +44,7 @@ ifdef TOOLCHAIN_PATH
     TOOLCHAIN_SEPARATOR = /
 endif
 
-TOOLCHAIN_PATH      ?= ../../tools/bin/
+TOOLCHAIN_PATH      ?= ~/../../opt/gcc-arm-none-eabi/bin/
 TOOLCHAIN_SEPARATOR ?=
 TOOLCHAIN_PREFIX    ?= arm-none-eabi-
 
@@ -115,7 +115,7 @@ OBJ_FILE_PATH = $(OBJ_FOLDER)/$(OBJ_FILE_NAME)
 
 # Input files
 SRC ?=
-SRC += $(SRC_FOLDER)/*.c
+SRC += $(SRC_FOLDER)/*.cpp
 
 # Startup file
 DEVICE_STARTUP = $(BASE_STARTUP)/$(SERIES_FOLDER)/$(MAPPED_DEVICE).s
